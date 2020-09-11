@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block extra_head %}
+<style>
+    *,
+    #stripeBtnlabel {
+        font-family: "Arial", Helvetica, sans-serif;
+        font-size: 16px;
+        font-variant: normal;
+        padding: 0;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    #stripeBtn {
+        border: none;
+        border-radius: 4px;
+        outline: none;
+        text-decoration: none;
+        color: #fff;
+        background: #32325d;
+        white-space: nowrap;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 14px;
+        box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+        border-radius: 4px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        text-decoration: none;
+        -webkit-transition: all 150ms ease;
+        float: left;
+        margin-left: 12px;
+        margin-top: 28px;
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 7px 14px rgba(50, 50, 93, .10), 0 3px 6px rgba(0, 0, 0 .08);
+        background-color: #43458b;
+    }
+
+    #stripe-form {
+        padding: 30px;
+        height: 120px;
+    }
+
+    label {
+        font-weight: 500;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    #card-errors {
+        height: 20px;
+        padding: 4px 0;
+        color: #fa755a;
+    }
+
+    .stripe-form-row {
+        width: 70%;
+        float: left;
+    }
+
+    .wrapper {
+        width: 670px;
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    /**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+    .StripeElement {
+        box-sizing: border-box;
+
+        height: 40px;
+
+        padding: 10px 12px;
+
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: white;
+
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<main>
+    <h2 class="my-5 h2 text-center">Payment</h2>
+    <div class="col-md-8 mb-4">
+        <div class="col-md-12 mb-4">
+            <div class="card mb-4">
+
+                <script src="https://js.stripe.com/v3/"></script>
+
+                <div class="card-body">
+                    <form action="/charge" method="post" id="stripe-form">
+                        <div class="stripe-form-row">
+                            <label for="card-element" id="stripeBtnlabel">
+                                Credit or debit card
+                            </label>
+                            <div id="card-element" class="StripeElement StripeElement--empty">
+                                <div class="_PrivateStripeElement"></div>
+                                <!-- A Stripe Element will be inserted here. -->
+                            </div>
+
+                            <!-- Used to display form errors. -->
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+
+
+                        <button id="stripeBtn">Submit Payment</button>
+                    </form>
+                </div>
+            </div>
+            {% include "order_snippet.html" %}
+        </div>
+
+    </div>
+
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Material Design Bootstrap</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <style type="text/css">
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
+
+        @media (max-width: 740px) {
+
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+
+{% block content %}
+
+<body>
+    <!--Main layout-->
+    <main>
+        <div class="container">
+            <div class="table-responsive">
+                <h2>Order Summary</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total Item Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order_item in object.items.all %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ order_item.item.title }}</td>
+                            <td>{{ order_item.item.price }}</td>
+                            <td><a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i
+                                        class="fas fa-minus mr-2"></i></a>{{ order_item.quantity }}
+                                <a href="{% url 'core:add-to-cart' order_item.item.slug %}"><i
+                                        class="fas fa-plus ml-2"></i></a>
+                            </td>
+                            <td>
+                                {% if order_item.item.discount_price %}
+                                N{{ order_item.get_total_discount_price }}
+                                <span class="badge badge-primary">Saving N{{order_item.get_amount_saved}}</span>
+                                {% else %}
+                                N{{ order_item.get_total_price }}
+                                {% endif %}
+                                <a href="{% url 'core:remove-from-cart' order_item.item.slug %}"><i
+                                        class="fas fa-trash float-right" style="color: red;"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                <h6>Your cart is empty!</h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <a href="{% url 'core:home' %}">
+                                <button class="btn btn-warning float-right ml-2" type="button">Go to shop</button>
+                        </tr>
+                        </a>
+                        {% endfor %}
+                        {% if object.get_total %}
+                        <tr>
+                            <td colspan="4">
+                                <h5>Total</h5>
+                            </td>
+                            <td>
+                                <h5>N{{ object.get_total }}</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <a href="/checkout">
+                                    <button class="btn btn-info float-right" type="button">Proceed to
+                                        checkout</button>
+                                </a>
+                                <a href="{% url 'core:home' %}">
+                                    <button class="btn btn-warning float-right ml-2" type="button">Continue
+                                        shopping</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <!--Main layout-->
+</body>
+{% endblock content %}
+
+</html>
