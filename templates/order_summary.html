@@ -98,6 +98,19 @@
                         </tr>
                         </a>
                         {% endfor %}
+                        {% if object.coupon %}
+                        <tr>
+                            <td>
+                                <p>Coupon Discount</p>
+                            </td>
+                            <td>
+                                {{ object.coupon.code }}
+                            </td>
+                            <td>
+                                {{ object.coupon.worth }}
+                            </td>
+                        </tr>>
+                        {% endif %}
                         {% if object.get_total %}
                         <tr>
                             <td colspan="4">

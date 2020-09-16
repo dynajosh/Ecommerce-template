@@ -73,8 +73,7 @@ if ENVIRONMENT == 'production':
     SECURE_REDIRECT_EXEMPT = []
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-#Authentication
+# Authentication
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -85,5 +84,5 @@ LOGIN_REDIRECT_URL = "/"
 
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-STRIPE_SECRET_KEY = 'sk_test_51GwWOwK4taOC5LCGjITvGthLsj0Gex2qKVeyZUN6feAGCSioCpsGwAinVYgbbsZ3KZjZfB5y1R28r6g6FjaBG0wO00susOb6O2'
+STRIPE_SECRET_KEY = "sk_test_51GwWOwK4taOC5LCGjITvGthLsj0Gex2qKVeyZUN6feAGCSioCpsGwAinVYgbbsZ3KZjZfB5y1R28r6g6FjaBG0wO00susOb6O2"
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51GwWOwK4taOC5LCGTa1Ev7FAjhjtiOWVb4KmasS15ZVkoimuUqJST5AW36ZtRpBGZdDDCzcrpFrelXxFnHgEwa0w00DAJsUqAc'

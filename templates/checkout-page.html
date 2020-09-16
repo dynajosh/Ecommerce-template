@@ -107,7 +107,9 @@
           <!--Card-->
           <div class="card">
             <!--Card content-->
-            <form class="card-body">
+            <form class="card-body" method="POST">
+              
+              {% csrf_token %}
               <!--Grid row-->
               <div class="row">
                 <!--Grid column-->
@@ -172,8 +174,8 @@
               <div class="d-block my-3">
                 {% for value, name in form.fields.payment_option.choices %}
                 <div class="custom-control custom-radio">
-                  <input id="{{name}}" name="payment_option" type="radio" class="custom-control-input" required>
-                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                  <input id="{{name}}" name="payment_option" type="radio" class="custom-control-input" value = {{value}} required/>
+                  <label class="custom-control-label" for= "{{ name }}">{{ name }}</label>
                 </div>
                 {% endfor %}
                 <!-- <div class="custom-control custom-radio">

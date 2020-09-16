@@ -11,7 +11,8 @@ LABEL_CHOICES = (('P', 'primary'), ('S', 'secondary'), ('D', 'danger'))
 
 class Coupon(models.Model):
     code = models.CharField(max_length=15)
-    value = models.FloatField()
+    # value = models.FloatField()
+    worth = models.FloatField()
 
     # amount = models.FloatField()
 
@@ -79,6 +80,7 @@ class Order(models.Model):
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
+    reference_code = models.CharField(max_length=30)
     ordered = models.BooleanField(default=False)
     billing_address = models.ForeignKey('BillingAddress',
                                         on_delete=models.SET_NULL,
@@ -92,7 +94,18 @@ class Order(models.Model):
                                on_delete=models.SET_NULL,
                                blank=True,
                                null=True)
-
+    being_delivered = models.BooleanField(default=False)
+    order_delivered = models.BooleanField(default=False)
+    refund_requested = models.BooleanField(default=False)
+    refund_granted = models.BooleanField(default=False)
+    '''
+    1. Item added to cart
+    2. Adding a billing address
+    (Failed checkout)
+    4. Being delivered
+    5. Received
+    6. Refunds
+    '''
     def __str__(self):
         return self.user.username
 
@@ -100,13 +113,14 @@ class Order(models.Model):
         total = 0
         for order_item in self.items.all():
             total += order_item.get_final_price()
-        total -= self.coupon.value
+        if self.coupon:
+            total -= self.coupon.worth
         return total
 
 
 class BillingAddress(models.Model):
-    user = user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                    on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     street_address = models.CharField(max_length=100)
     apartment_address = models.CharField(max_length=100)
     country = CountryField(multiple=False)
@@ -127,3 +141,12 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Refund(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    reason = models.TextField()
+    accepted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.pk}"

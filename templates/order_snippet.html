@@ -2,7 +2,9 @@
   <!-- Heading -->
   <h4 class="d-flex justify-content-between align-items-center mb-3">
     <span class="text-muted">Your cart</span>
-    <span class="badge badge-secondary badge-pill">{{ order.items.count }}</span>
+    <span class="badge badge-secondary badge-pill"
+      >{{ order.items.count }}</span
+    >
   </h4>
   <!-- Cart -->
   <ul class="list-group mb-3 z-depth-1">
@@ -14,14 +16,15 @@
       </div>
       <span class="text-muted">{{ order_item.item.price }}</span>
     </li>
-    {% endfor %}
+    {% endfor %} {% if order.coupon %}
     <li class="list-group-item d-flex justify-content-between bg-light">
       <div class="text-success">
         <h6 class="my-0">Promo code</h6>
-        <small>{{order.coupon.code}}</small>
+        <small>{{order.coupon}}</small>
       </div>
       <span class="text-success">-N{{ order.coupon.value }}</span>
     </li>
+    {% endif %}
     <li class="list-group-item d-flex justify-content-between">
       <span>Total (NGN)</span>
       <strong>{{ order.get_total }}</strong>
@@ -30,18 +33,21 @@
   <!-- Cart -->
 
   <!-- Promo code -->
+  {% if DISPLAY_COUPON_FORM %}
   <form class="card p-2" action="{% url 'core:add-coupon' %}" method="POST">
     {% csrf_token %}
     <div class=" input-group">
       <!-- <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username"
-        aria-describedby="basic-addon2"> -->
+          aria-describedby="basic-addon2"> -->
       {{ couponform.code }}
       <div class="input-group-append">
-        <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
+        <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">
+          Redeem
+        </button>
       </div>
     </div>
   </form>
+  {% endif %}
   <!-- Promo code -->
-
 </div>
 <!--Grid column-->
